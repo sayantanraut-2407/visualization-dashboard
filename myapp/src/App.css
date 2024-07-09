@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  
+  height: 100vh; /* Ensures the content takes the full height of the viewport */
 }
 
 .App-logo {
@@ -35,4 +36,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.centeredElement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 93%;
+  margin-top: 100px;
+}
+
+.headerElement {
+  margin-top: 50px;
+  text-align: center;
 }

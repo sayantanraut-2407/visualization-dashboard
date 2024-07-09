@@ -1,10 +1,14 @@
 import React from 'react';
-import HelloWorld from './HelloWorld';
+import GraphContainer from './GraphContainer';
+import './App.css';
 
 function App() {
   return (
-    <div>
-      <HelloWorld />
+    <div className="App" id="maindiv">
+        <h1 className="headerElement">Data Visualization App</h1>
+      <div id="graphdiv" className="centeredElement">
+          <GraphContainer />
+      </div>
     </div>
   );
 }
