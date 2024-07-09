@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "canvasxpress": "^51.0.12",
+    "canvasxpress-react": "^51.0.12",
+    "crypto-browserify": "^3.12.0"
+  },
+  "devDependencies": {
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1"
+  }
+}
