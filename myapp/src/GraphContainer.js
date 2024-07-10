@@ -18,7 +18,7 @@ const GraphContainer = () => {
         };
         const chartConfig = {
           "graphOrientation": "vertical",
-      "graphType": "Bar",
+      "graphType": "BarLine",
       "theme": "tableau",
       "adjustAspectRatio": false,
       "percentAspectRatioPlotArea": 1.0
