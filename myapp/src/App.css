@@ -1,5 +1,5 @@
 .App {
-  
+  background-image: url("./resources/sample_bg.jpeg");
   height: 100vh; /* Ensures the content takes the full height of the viewport */
 }
 
@@ -48,6 +48,8 @@
 }
 
 .headerElement {
-  margin-top: 50px;
+  padding-top: 50px;
   text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
 }
