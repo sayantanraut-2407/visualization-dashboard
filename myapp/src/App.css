@@ -44,7 +44,7 @@
   align-items: center;
   text-align: center;
   width: 93%;
-  margin-top: 100px;
+  margin-top: 70px;
 }
 
 .headerElement {
@@ -52,4 +52,22 @@
   text-align: center;
   color: white;
   text-shadow: 2px 2px 4px #000000;
+}
+
+.chatBotElement {
+  /* enable div scrolling */ 
+  overflow: scroll;
+  height: 20%;
+  background-color: black;
+  border: 1px black solid;
+  padding: 2%;
+  width: 1700px;
+  margin: 50px auto;
+  white-space: nowrap;
+  font-size: large;
+  padding-top: 20px;
+  text-align: justify;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  text-wrap: wrap;
 }
