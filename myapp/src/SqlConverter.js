@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getSQLQuery } from './openaiService';
+import Button from '@mui/material/Button';
 
 const SQLConverter = () => {
   const [text, setText] = useState('');
@@ -21,7 +22,11 @@ const SQLConverter = () => {
         placeholder='Enter your text here'
       />
       <br />
-      <button onClick={handleConvert}>Convert to SQL</button>
+      {/* <button onClick={handleConvert}>Convert to SQL</button> */}
+      <Button variant="contained"
+        onClick={handleConvert}>
+        Convert to SQL
+      </Button>
       {sqlQuery && (
         <div>
           <h2>Generated SQL Query</h2>

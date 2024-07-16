@@ -1,5 +1,5 @@
 .App {
-  /* background-image: url("./resources/sample_bg.jpeg"); */
+  background-image: url("./resources/sample_bg.jpeg");
   height: 100vh; /* Ensures the content takes the full height of the viewport */
 }
 
@@ -70,4 +70,19 @@
   color: white;
   text-shadow: 2px 2px 4px #000000;
   text-wrap: wrap;
+}
+
+.clickBtn {
+  text-align: center;
+}
+
+.converterElement {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+}
+
+.sqlDiv {
+  margin-left: 400px;
+  margin-top: 80px;
 }
