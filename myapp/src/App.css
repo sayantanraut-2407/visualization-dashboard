@@ -1,5 +1,5 @@
 .App {
-  background-image: url("./resources/sample_bg.jpeg");
+  /* background-image: url("./resources/sample_bg.jpeg"); */
   height: 100vh; /* Ensures the content takes the full height of the viewport */
 }
 
