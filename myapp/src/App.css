@@ -1,5 +1,5 @@
 .App {
-  background-image: url("./resources/sample_bg.jpeg");
+  /* background-image: url("./resources/sample_bg.jpeg"); */
   height: 100vh; /* Ensures the content takes the full height of the viewport */
 }
 
@@ -43,8 +43,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 93%;
-  margin-top: 100px;
+  margin-top: 70px;
+  margin-left: 100px;
 }
 
 .headerElement {
@@ -52,4 +52,59 @@
   text-align: center;
   color: white;
   text-shadow: 2px 2px 4px #000000;
+}
+
+.chatBotElement {
+  /* enable div scrolling */ 
+  overflow: scroll;
+  height: 20%;
+  background-color: black;
+  border: 1px black solid;
+  padding: 2%;
+  width: 1700px;
+  margin: 50px auto;
+  white-space: nowrap;
+  font-size: large;
+  padding-top: 20px;
+  text-align: justify;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  text-wrap: wrap;
+}
+
+.clickBtn {
+  text-align: center;
+}
+
+.converterElement {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+}
+
+.siteDescription {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.sqlDiv {
+  margin-left: 400px;
+  margin-top: 80px;
+}
+
+.beginBtn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.beginBtn button {
+  background-color: aliceblue;
+}
+
+.fixed-image {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 50px;
+  z-index: 1000; /* Ensure it stays on top */
 }
