@@ -1,0 +1,12 @@
+.card-style {
+    height: 500px;
+}
+
+.bulleted-list {
+    list-style-type: disc; /* Use disc bullets */
+    padding-left: 20px; /* Indent the list */
+  }
+  
+  .bulleted-list .MuiListItem-root {
+    display: list-item;
+  }
