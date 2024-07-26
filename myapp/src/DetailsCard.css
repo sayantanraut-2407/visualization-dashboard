@@ -3,10 +3,15 @@
 }
 
 .bulleted-list {
-    list-style-type: disc; /* Use disc bullets */
-    padding-left: 20px; /* Indent the list */
-  }
-  
-  .bulleted-list .MuiListItem-root {
+    list-style-type: disc;
+}
+
+.bulleted-list .MuiList-root {
+  padding-left: 20px; /* Indent the list */
+}
+
+.bulleted-list .MuiListItem-root {
     display: list-item;
-  }
+    list-style-type: disc; /* Use disc bullets */
+    padding-left: 10px; /* Indent the list */
+}

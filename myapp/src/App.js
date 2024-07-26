@@ -13,6 +13,8 @@ import { styled } from '@mui/material/styles';
 import imagePath from './resources/lab_logo.png';
 import vidPath from './resources/bg_vid.mp4';
 
+import axios from 'axios';
+
 
 // Creating a styled secondary button with hover effect
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -36,6 +38,32 @@ function App() {
 
   const handleDetailsCardButtonClick = () => {
     setShowCard(!showCard);
+    fetchData();
+    fetchDrugMaps();
+  };
+
+  const [message, setMessage] = useState('');
+  const [drugMaps, setDrugMaps] = useState('');
+
+  const fetchData = ()  => {
+    axios.get('http://localhost:8000/api/hello-world/')
+      .then(response => {
+        setMessage(response.data.message);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const fetchDrugMaps = ()  => {
+    axios.get('http://localhost:8000/api/fetch-drugs/')
+      .then(response => {
+        setDrugMaps(response.data.resp);
+        console.log(drugMaps);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -68,7 +96,7 @@ function App() {
 
           </div>)}
 
-          {showCard && (<div id="detailscarddiv" className='detailscard-div'><DetailsCard /></div>)}
+          {showCard && (<div id="detailscarddiv" className='detailscard-div'><DetailsCard message={message}/></div>)}
         </div>
       </div>
     </div>

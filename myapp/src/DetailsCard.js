@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
 import './DetailsCard.css';
 
-const DetailsCard = () => {
+const DetailsCard = (props) => {
   return (
     <Card className='card-style'>
       <CardContent>
@@ -10,18 +10,18 @@ const DetailsCard = () => {
           Plot Details
         </Typography>
         <br/>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body" color="text.secondary">
           This section lists the details of the data visualized on the adjacent plot.
         </Typography>
         <List className="bulleted-list">
           <ListItem>
-            <ListItemText primary="Details point 1" />
+            <ListItemText primary={props.message.id1} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Details point 2" />
+            <ListItemText primary={props.message.id2} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Details point 3" />
+            <ListItemText primary={props.message.id3} />
           </ListItem>
         </List>
       </CardContent>
