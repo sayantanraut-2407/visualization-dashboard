@@ -38,7 +38,7 @@ function App() {
 
   const handleDetailsCardButtonClick = () => {
     setShowCard(!showCard);
-    fetchData();
+    //fetchData();
     fetchDrugMaps();
   };
 
