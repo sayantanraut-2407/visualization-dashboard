@@ -40,10 +40,13 @@ function App() {
     setShowCard(!showCard);
     //fetchData();
     fetchDrugMaps();
+    fetchDrugsData();
   };
 
   const [message, setMessage] = useState('');
-  const [drugMaps, setDrugMaps] = useState('');
+  const [drugsList, setDrugsList] = useState('');
+
+  const [drugsData, setDrugsData] = useState(null);
 
   const fetchData = ()  => {
     axios.get('http://localhost:8000/api/hello-world/')
@@ -58,8 +61,19 @@ function App() {
   const fetchDrugMaps = ()  => {
     axios.get('http://localhost:8000/api/fetch-drugs/')
       .then(response => {
-        setDrugMaps(response.data.resp);
-        console.log(drugMaps);
+        console.log(response.data.resp);
+        setDrugsList(response.data.resp);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const fetchDrugsData = ()  => {
+    axios.get('http://localhost:3001/getViabilityAndMappingData')
+      .then(response => {
+        console.log(response.data);
+        setDrugsData(response.data);
       })
       .catch(error => {
         console.log(error);
