@@ -38,8 +38,8 @@ function App() {
 
   const handleDetailsCardButtonClick = () => {
     setShowCard(!showCard);
-    //fetchData();
-    fetchDrugMaps();
+    fetchViabilitiesData();
+    //fetchDrugMaps();
     fetchDrugsData();
   };
 
@@ -59,10 +59,10 @@ function App() {
   };
 
   const fetchDrugMaps = ()  => {
-    axios.get('http://localhost:8000/api/fetch-drugs/')
+    axios.get('http://localhost:3001/getDrugs')
       .then(response => {
-        console.log(response.data.resp);
-        setDrugsList(response.data.resp);
+        //console.log(response.data);
+        setDrugsList(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -70,9 +70,20 @@ function App() {
   };
 
   const fetchDrugsData = ()  => {
-    axios.get('http://localhost:3001/getViabilityAndMappingData')
+    axios.get('http://localhost:3001/getDrugData')
       .then(response => {
         console.log(response.data);
+        setDrugsList(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const fetchViabilitiesData = ()  => {
+    axios.get('http://localhost:3001/getViabilityAndMappingData')
+      .then(response => {
+        //console.log(response.data);
         setDrugsData(response.data);
       })
       .catch(error => {
