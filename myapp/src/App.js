@@ -14,6 +14,7 @@ import imagePath from './resources/lab_logo.png';
 import vidPath from './resources/bg_vid.mp4';
 
 import axios from 'axios';
+import { json2csv } from 'json-2-csv';
 
 
 // Creating a styled secondary button with hover effect
@@ -39,7 +40,7 @@ function App() {
   const handleDetailsCardButtonClick = () => {
     setShowCard(!showCard);
     fetchViabilitiesData();
-    //fetchDrugMaps();
+    //fetchDrugNames();
     fetchDrugsData();
   };
 
@@ -47,6 +48,8 @@ function App() {
   const [drugsList, setDrugsList] = useState('');
 
   const [drugsData, setDrugsData] = useState(null);
+  const [csvData, setCsvData] = useState(null);
+  const [isCsvData, setIsCsvData] = useState(false);
 
   const fetchData = ()  => {
     axios.get('http://localhost:8000/api/hello-world/')
@@ -58,7 +61,7 @@ function App() {
       });
   };
 
-  const fetchDrugMaps = ()  => {
+  const fetchDrugNames = ()  => {
     axios.get('http://localhost:3001/getDrugs')
       .then(response => {
         //console.log(response.data);
@@ -72,7 +75,7 @@ function App() {
   const fetchDrugsData = ()  => {
     axios.get('http://localhost:3001/getDrugData')
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         setDrugsList(response.data);
       })
       .catch(error => {
@@ -85,10 +88,24 @@ function App() {
       .then(response => {
         //console.log(response.data);
         setDrugsData(response.data);
+        handleDownloadCSV();
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const handleDownloadCSV = () => {
+    if (drugsData === null) {
+      return;
+    }
+    try {
+      // Convert JSON to CSV
+      const csv = json2csv(drugsData);
+      setCsvData(csv);
+    } catch (err) {
+      console.error('Error converting to CSV:', err);
+    }
   };
 
   return (
@@ -105,7 +122,6 @@ function App() {
         <div className='beginBtn'>
           <CustomButton variant="contained" color="secondary" 
             onClick={() => {
-              console.log("event logged")
               setIsGraphCalled(true)
               handleDetailsCardButtonClick()
             }}>
@@ -116,8 +132,8 @@ function App() {
           {/* <div className='sqlDiv'>
               <SQLConverter />
           </div> */}
-          {isGraphCalled && (<div id="graphdiv" className="centeredElement">
-              <GraphContainer />
+          {(csvData !== null) && (<div id="graphdiv" className="centeredElement">
+              <GraphContainer csvData={csvData}/>
 
           </div>)}
 
