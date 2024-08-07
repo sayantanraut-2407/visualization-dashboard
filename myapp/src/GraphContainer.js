@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import CanvasXpressReact from 'canvasxpress-react';
 
-const GraphContainer = () => {
+const GraphContainer = (props) => {
   const [data, setData] = useState(null);
   const [config, setConfig] = useState(null);
 
+  const [showGraph, setShowGraph] = useState(false);
+
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/faithfuld.csv`)
-      .then(response => response.text())
-      .then(csv => {
-        const parsedData = parseCSV(csv);
-        const chartData = {
-          "y" : {
-        "vars" : [parsedData.data[0].slice(0,50)],
-        "data" : [parsedData.data[1].slice(0,50)]
+    const parsedData = parseCSV(props.csvData);
+    const drugsCsvData = parseDrugsCsv(props.drugsCsv);
+
+    const chartData = {
+      "y" : {
+        "vars" : ["age at diagnosis"],
+        "data" : [parsedData.data],
+        "smps" : parsedData.smps
       }
-        };
-        const chartConfig = {
-          "graphOrientation": "vertical",
-          "graphType": "BarLine",
-          "theme": "tableau",
-          "adjustAspectRatio": false,
-          "percentAspectRatioPlotArea": 1.0
-        };
-        setData(chartData);
-        setConfig(chartConfig);
-      })
-      .catch(error => console.error('Error fetching CSV data:', error));
+    };
+    const chartConfig = {
+      graphOrientation: "vertical",
+      graphType: "BarLine",
+      xAxisTitle: "Patients",
+      yAxisTitle: "Age",
+      theme: "tableau",
+      adjustAspectRatio: false,
+      percentAspectRatioPlotArea: 1.0
+    };
+    setData(chartData);
+    setConfig(chartConfig);
   }, []);
 
   const parseCSV = (csv) => {
@@ -35,21 +37,63 @@ const GraphContainer = () => {
 
     const data = rows.slice(1).map(row => row.split(',').map(cell => cell.trim()));
 
-    const waiting = data.map(row => parseFloat(row[headers.indexOf('waiting')]));
-    const eruptions = data.map(row => parseInt(row[headers.indexOf('eruptions')].replace(/"/g, '')));
-    const density = data.map(row => parseFloat(row[headers.indexOf('density')]));
+    const age_at_diagnosis = data.map(row => parseInt(row[headers.indexOf("age_at_diagnosis")]));
+
+    // Define the age brackets
+    const ageBrackets = {
+      "40 and below": 0,
+      "41-50": 0,
+      "51-60": 0,
+      "61-70": 0,
+      "71 and above": 0
+    };
+
+    age_at_diagnosis.forEach(age => {
+      if (age <= 40) {
+        ageBrackets["40 and below"]++;
+      } else if (age <= 50) {
+        ageBrackets["41-50"]++;
+      } else if (age <= 60) {
+        ageBrackets["51-60"]++;
+      } else if (age <= 70) {
+        ageBrackets["61-70"]++;
+      } else {
+        ageBrackets["71 and above"]++;
+      }
+    });
 
     return {
-      data: [ eruptions, waiting, density ],
-      smps: ['Sample 1', 'Sample 2', 'Sample 3'],
-      vars: ['eruptions', 'waiting', 'density']
+      data: Object.values(ageBrackets),
+      smps: Object.keys(ageBrackets)
     };
   };
+
+  useEffect(() => {
+    if (data && config) {
+      setShowGraph(!showGraph);
+    }
+  }, [data, config]); // Update the state when the props change
+
+
+  const parseDrugsCsv = (csv) => {
+    const rows = csv.split('\n').filter(row => row.trim() !== '');
+    const headers = rows[0].split(',').map(header => header.trim().replace(/"/g, ''));
+
+    const data = rows.slice(1).map(row => row.split(',').map(cell => cell.trim()));
+
+    const drugs_ids = data.map(row => row[headers.indexOf("cid")]);
+    const drugs_names = data.map(row => row[headers.indexOf("figure_name")]);
+
+    return {
+      ids: drugs_ids,
+      names: drugs_names
+    };
+  }
 
   return (
     
     <div>
-        {data && config ? (
+        {showGraph ? (
           
             <div>
               <CanvasXpressReact
