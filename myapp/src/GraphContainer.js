@@ -5,23 +5,27 @@ const GraphContainer = (props) => {
   const [data, setData] = useState(null);
   const [config, setConfig] = useState(null);
 
+  const [showGraph, setShowGraph] = useState(false);
+
   useEffect(() => {
-    // console.log(props.csvData);
     const parsedData = parseCSV(props.csvData);
-    console.log(parsedData);
+    const drugsCsvData = parseDrugsCsv(props.drugsCsv);
+
     const chartData = {
       "y" : {
         "vars" : ["age at diagnosis"],
-        "data" : [parsedData.data.slice(0,50)],
-        "smps" : [parsedData.patient_ids]
+        "data" : [parsedData.data],
+        "smps" : parsedData.smps
       }
     };
     const chartConfig = {
-      "graphOrientation": "vertical",
-      "graphType": "BarLine",
-      "theme": "tableau",
-      "adjustAspectRatio": false,
-      "percentAspectRatioPlotArea": 1.0
+      graphOrientation: "vertical",
+      graphType: "BarLine",
+      xAxisTitle: "Patients",
+      yAxisTitle: "Age",
+      theme: "tableau",
+      adjustAspectRatio: false,
+      percentAspectRatioPlotArea: 1.0
     };
     setData(chartData);
     setConfig(chartConfig);
@@ -30,26 +34,66 @@ const GraphContainer = (props) => {
   const parseCSV = (csv) => {
     const rows = csv.split('\n').filter(row => row.trim() !== '');
     const headers = rows[0].split(',').map(header => header.trim().replace(/"/g, ''));
-    console.log(headers);
 
     const data = rows.slice(1).map(row => row.split(',').map(cell => cell.trim()));
-    console.log(data);
 
-    const viability_names = data.map(row => row[headers.indexOf("viability_name")]);
     const age_at_diagnosis = data.map(row => parseInt(row[headers.indexOf("age_at_diagnosis")]));
-    const patient_ids = data.map(row => "patient_" + row[headers.indexOf("patient_id")]);
+
+    // Define the age brackets
+    const ageBrackets = {
+      "40 and below": 0,
+      "41-50": 0,
+      "51-60": 0,
+      "61-70": 0,
+      "71 and above": 0
+    };
+
+    age_at_diagnosis.forEach(age => {
+      if (age <= 40) {
+        ageBrackets["40 and below"]++;
+      } else if (age <= 50) {
+        ageBrackets["41-50"]++;
+      } else if (age <= 60) {
+        ageBrackets["51-60"]++;
+      } else if (age <= 70) {
+        ageBrackets["61-70"]++;
+      } else {
+        ageBrackets["71 and above"]++;
+      }
+    });
 
     return {
-      data: age_at_diagnosis,
-      smps: patient_ids,
-      vars: viability_names
+      data: Object.values(ageBrackets),
+      smps: Object.keys(ageBrackets)
     };
   };
+
+  useEffect(() => {
+    if (data && config) {
+      setShowGraph(!showGraph);
+    }
+  }, [data, config]); // Update the state when the props change
+
+
+  const parseDrugsCsv = (csv) => {
+    const rows = csv.split('\n').filter(row => row.trim() !== '');
+    const headers = rows[0].split(',').map(header => header.trim().replace(/"/g, ''));
+
+    const data = rows.slice(1).map(row => row.split(',').map(cell => cell.trim()));
+
+    const drugs_ids = data.map(row => row[headers.indexOf("cid")]);
+    const drugs_names = data.map(row => row[headers.indexOf("figure_name")]);
+
+    return {
+      ids: drugs_ids,
+      names: drugs_names
+    };
+  }
 
   return (
     
     <div>
-        {data && config ? (
+        {showGraph ? (
           
             <div>
               <CanvasXpressReact
